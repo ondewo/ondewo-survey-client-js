@@ -1,0 +1,3 @@
+[submodule "src/ondewo-survey-api"]
+	path = src/ondewo-survey-api
+	url = https://github.com/ondewo/ondewo-survey-api
