@@ -19,7 +19,7 @@
     "build-only": "docker run -it -v ${PWD}/src:/input-volume -v ${PWD}/src/../lib:/output-volume $npm_package_config_compiler $npm_package_config_libname $npm_package_config_root $npm_package_config_entry",
     "publish-npm": "npm publish ../npm --access public",
     "build-update": "npm run build-only && npm run start-example",
-    "start-example": "cp lib/* example/lib && http-server example"
+    "start-example": "sudo ln -s lib/survey.js example/lib/survey.js && http-server example"
   },
   "author": "ONDEWO GmbH",
   "homepage": "https://ondewo.com/",
