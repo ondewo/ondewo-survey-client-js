@@ -14,8 +14,15 @@ const clientOptions = {
     suppressCorsPreflight: false
 }
 // ClientOptions
-// suppressCorsPreflight: boolean, withCredentials: boolean, this.unaryInterceptors; this.streamInterceptors;
-// this.format; this.workerScope; this.useFetchDownloadStreams;
+// suppressCorsPreflight: boolean, withCredentials: boolean, this.unaryInterceptors; this.streamInterceptors; this.format; this.workerScope; this.useFetchDownloadStreams;
+//
+
+const config = {
+    'grpc_host': "webgrpc-survey-develop.ondewo.com",
+    'grpc_port': '443'
+}
+var clientWrapper = new survey.SurveysClientWrapper(config);
+console.log(clientWrapper)
 
 var client = new SurveysClient(hostName, credentials, clientOptions)
 
