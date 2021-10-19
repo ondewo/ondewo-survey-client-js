@@ -12,7 +12,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "initialize": "git submodule update --init --recursive --remote",
-    "prebuild": "mv src/ondewo-survey-api/googleapis/google src/ondewo-survey-api/google 2>/dev/null",
+    "prebuild": "mv src/ondewo-survey-api/googleapis/google src/ondewo-survey-api/google",
     "build": "npm run build-only",
     "postbuild": "mv src/ondewo-survey-api/google src/ondewo-survey-api/googleapis/google",
     "debug": "docker run -it --entrypoint /bin/bash -v ${PWD}/src:/input-volume -v ${PWD}/src/..:/output-volume $npm_package_config_compiler",
