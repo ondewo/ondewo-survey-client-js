@@ -1,7 +1,7 @@
 {
   "name": "@ondewo/survey-client-js",
   "version": "2.0.1",
-  "description": "Ondewo natural language understanding client library for js",
+  "description": "Ondewo survey creation and handling client library for js",
   "keywords": ["ondewo", "survey", "api", "client", "js", "grpc"],
   "config" : { 
     "libname" : "survey",
