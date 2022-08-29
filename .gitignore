@@ -1,2 +1,4 @@
-*/lib/
-example/lib
+node_modules
+.vscode
+npm
+*.env
