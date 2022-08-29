@@ -1,3 +1,6 @@
 [submodule "src/ondewo-survey-api"]
 	path = src/ondewo-survey-api
 	url = https://github.com/ondewo/ondewo-survey-api
+[submodule "ondewo-proto-compiler"]
+	path = ondewo-proto-compiler
+	url = git@github.com:ondewo/ondewo-proto-compiler.git
