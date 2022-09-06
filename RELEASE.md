@@ -1,7 +1,7 @@
 # Release History
 *****************
 
-## Release ONDEWO SURVEY Typescript Client 1.1.0
+## Release ONDEWO SURVEY Js Client 1.1.0
 
 ### Improvements
  * Update to SURVEY client version tag 1.1.0
