@@ -49,7 +49,7 @@ install_packages: ## Install npm packages
 install_precommit_hooks: ## Install precommit hooks
 	npx husky install
 
-run_precommit_hooks:
+run_precommit_hooks: ## Runs Precommit Hooks
 	.husky/pre-commit
 
 prettier: ## Checks formatting with Prettier - Use PRETTIER_WRITE=-w to also automatically apply corrections where needed
@@ -152,7 +152,7 @@ release_to_github_via_docker_image:  ## Release to Github via docker
 build_utils_docker_image:  ## Build utils docker image
 	docker build -f Dockerfile.utils -t ${IMAGE_UTILS_NAME} .
 
-build_and_publish_npm_via_docker: build build_utils_docker_image ## Builds Code, Docker-Image and Releases to NPM
+publish_npm_via_docker: build_utils_docker_image ## Builds Code, Docker-Image and Releases to NPM
 	docker run --rm \
 		-e NPM_AUTOMATION_TOKEN=${NPM_AUTOMATION_TOKEN} \
 		${IMAGE_UTILS_NAME} make docker_npm_release
@@ -205,13 +205,13 @@ build: check_out_correct_submodule_versions build_compiler update_package npm_ru
 	make install_dependencies
 	rm -rf ${SURVEY_APIS_DIR}/google
 
-remove_npm_script:
+remove_npm_script: ## Removes Script section from package.json
 	$(eval script_lines:= $(shell cat package.json | sed -n '/\"scripts\"/,/\}\,/='))
 	$(eval start:= $(shell echo $(script_lines) | cut -c 1-2))
 	$(eval end:= $(shell echo $(script_lines) | rev | cut -c 1-3 | rev))
 	@sed -i '$(start),$(end)d' package.json
 
-create_npm_package:
+create_npm_package: ## Creates NPM Package for Release
 	rm -rf npm
 	mkdir npm
 	cp -R api npm
@@ -219,7 +219,7 @@ create_npm_package:
 	cp LICENSE npm
 	cp README.md npm
 
-install_dependencies:
+install_dependencies: ## Installs Dev-Dependencies
 	npm i eslint --save-dev
 	npm i prettier --save-dev
 	npm i @typescript-eslint/eslint-plugin --save-dev
