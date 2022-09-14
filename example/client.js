@@ -14,8 +14,7 @@ const authMetaData = {
 //runDefaultSurveyClientSample(endPoint, authMetaData);
 runFHIRSurveyClientSample(endPoint, authMetaData);
 
-function runDefaultSurveyClientSample(endPoint, authMetaData){
-
+function runDefaultSurveyClientSample(endPoint, authMetaData) {
 	//Define types to use
 	const CreateSurveyRequest = survey.CreateSurveyRequest;
 	const GetSurveyRequest = survey.GetSurveyRequest;
@@ -24,12 +23,12 @@ function runDefaultSurveyClientSample(endPoint, authMetaData){
 	const Question = survey.Question;
 	const SurveyInfo = survey.SurveyInfo;
 	//const OpenQuestion = survey.OpenQuestion
-	const SingleParameterQuestion = survey.SingleParameterQuestion
+	const SingleParameterQuestion = survey.SingleParameterQuestion;
 
 	const SurveysPromiseClient = survey.SurveysPromiseClient;
 
 	//Helper functions
-	console.log("runDefaultSurveyClientSample");
+	console.log('runDefaultSurveyClientSample');
 
 	function createSampleSurvey(client, requestMetaData) {
 		let newSurvey = new Survey();
@@ -37,45 +36,45 @@ function runDefaultSurveyClientSample(endPoint, authMetaData){
 		//newSurvey.setSurveyId("projects/ddde0272-1d70-4927-a3b9-9837bfa66143/agent");
 		newSurvey.setDisplayName('JS Client - This is a sample survey');
 		const questions = [];
-	
+
 		/*const question1 = new OpenQuestion();
 		question1.setQuestionText("Open question questions question question?")
 		questions.push(question1);*/
-		
+
 		const question2 = new SingleParameterQuestion();
 		//const question2 = new Question();
-		question2.setQuestionText("Single parameter question?")
-		question2.setParameterType("sys.date_time")
-	
+		question2.setQuestionText('Single parameter question?');
+		question2.setParameterType('sys.date_time');
+
 		const question = new Question();
 		question.setSingleParameterQuestion(question2);
-	
+
 		questions.push(question);
-	
+
 		newSurvey.setQuestionsList(questions);
-	
+
 		const surveyInfo = new SurveyInfo();
 		surveyInfo.setEmailAddress('markus.peitl@ondewo.com');
 		surveyInfo.setPhoneNumber('+436602094000');
 		surveyInfo.setPurpose('This is a sample survey to test creating with js api');
 		surveyInfo.setTopic('testing');
 		newSurvey.setSurveyInfo(surveyInfo);
-	
+
 		var request = new CreateSurveyRequest();
 		request.setSurvey(newSurvey);
-	
+
 		console.log(request);
 		return client.createSurvey(request, requestMetaData);
 	}
-	
+
 	function getSurvey(client, requestMetaData, surveyId) {
 		var request = new GetSurveyRequest();
 		console.log(request);
 		request.setSurveyId(surveyId);
-	
+
 		return client.getSurvey(request, requestMetaData);
 	}
-	
+
 	function createSurveyClient(host) {
 		//const hostName = "https://webgrpc-survey-develop.ondewo.com:443"
 		const credentials = {};
@@ -86,7 +85,7 @@ function runDefaultSurveyClientSample(endPoint, authMetaData){
 			withCredentials: false,
 			suppressCorsPreflight: false
 		};
-	
+
 		//var client = new SurveysClient(host, credentials, clientOptions)
 		var client = new SurveysPromiseClient(host, credentials, clientOptions);
 		return client;
@@ -95,34 +94,33 @@ function runDefaultSurveyClientSample(endPoint, authMetaData){
 	//Create client and dispatch requests
 	const client = createSurveyClient(endPoint);
 	getSurvey(client, authMetaData, 'projects/ddde0272-1d70-4927-a3b9-9837bfa66143/agent')
-	.then((survey) => {
-		console.log('Fetched survey from server: ');
-		console.log(survey);
-	})
-	.catch((err) => {
-		console.log('Error occured, while create fetching survey: ');
-		console.log(err);
-	});
+		.then((survey) => {
+			console.log('Fetched survey from server: ');
+			console.log(survey);
+		})
+		.catch((err) => {
+			console.log('Error occured, while create fetching survey: ');
+			console.log(err);
+		});
 
 	createSampleSurvey(client, authMetaData)
-	.then((survey) => {
-		console.log('Created survey: ');
-		console.log(survey);
+		.then((survey) => {
+			console.log('Created survey: ');
+			console.log(survey);
 
-		return getSurvey(client, authMetaData, survey.getSurveyId());
-	})
-	.then((survey) => {
-		console.log('Fetched survey from server: ');
-		console.log(survey);
-	})
-	.catch((err) => {
-		console.log('Error occured, while create fetching survey: ');
-		console.log(err);
-	});
+			return getSurvey(client, authMetaData, survey.getSurveyId());
+		})
+		.then((survey) => {
+			console.log('Fetched survey from server: ');
+			console.log(survey);
+		})
+		.catch((err) => {
+			console.log('Error occured, while create fetching survey: ');
+			console.log(err);
+		});
 }
 
-function runFHIRSurveyClientSample(endPoint, authMetaData){
-
+function runFHIRSurveyClientSample(endPoint, authMetaData) {
 	const FHIRPromiseClient = survey.FHIRPromiseClient;
 	const CreateFHIRSurveyRequest = survey.CreateFHIRSurveyRequest;
 	const structFromJavascript = proto.google.protobuf.Struct.fromJavaScript;
@@ -137,7 +135,7 @@ function runFHIRSurveyClientSample(endPoint, authMetaData){
 		var client = new FHIRPromiseClient(host, credentials, clientOptions);
 		return client;
 	}
-	
+
 	function getSampleFHIRSurveyJson() {
 		return {
 			resourceType: 'Questionnaire',
@@ -357,38 +355,36 @@ function runFHIRSurveyClientSample(endPoint, authMetaData){
 			]
 		};
 	}
-	
+
 	function createFhirSurvey(client, requestMetaData, jsonData) {
-	
 		const dataStruct = structFromJavascript(jsonData);
 		//console.log(dataStruct)
 		var request = new CreateFHIRSurveyRequest();
 		//var request = new CreateFHIRSurveyRequest({ fhirQuestionnaire: jsonData });
 		//var request = new CreateFHIRSurveyRequest({ 1: jsonData });
 		request.setFhirQuestionnaire(dataStruct);
-		
-		console.log("CreateFHIRSurveyRequest:")
+
+		console.log('CreateFHIRSurveyRequest:');
 		console.log(request);
 		return client.createFHIRSurvey(request, requestMetaData);
 	}
-	
+
 	const fhirClient = createFHIRClient(endPoint);
 	const data = getSampleFHIRSurveyJson();
-	
-	createFhirSurvey(fhirClient, authMetaData, data)
-	.then((survey) => {
-	  console.log('Created FHIR survey: ');
-	  console.log(survey);
-	
-	  return getSurvey(fhirClient, authMetaData, survey.getSurveyId());
-	})
-	.then((survey) => {
-	  console.log('Fetched survey from server: ');
-	  console.log(survey);
-	})
-	.catch((err) => {
-	  console.log('Error occured, while create fetching survey: ');
-	  console.log(err);
-	});
-}
 
+	createFhirSurvey(fhirClient, authMetaData, data)
+		.then((survey) => {
+			console.log('Created FHIR survey: ');
+			console.log(survey);
+
+			return getSurvey(fhirClient, authMetaData, survey.getSurveyId());
+		})
+		.then((survey) => {
+			console.log('Fetched survey from server: ');
+			console.log(survey);
+		})
+		.catch((err) => {
+			console.log('Error occured, while create fetching survey: ');
+			console.log(err);
+		});
+}
