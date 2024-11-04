@@ -1,6 +1,19 @@
-RELEASE.md
-src/
+# release automation
+ondewo-devops-accounts
 ondewo-proto-compiler
-ondewo-survey-api
+build_check.*
+build_check.txt
+build_check_temp.txt
+RELEASE.md
+README.md
+
 npm
-.vscode
+.idea/
+.vscode/
+node_modules
+
+ondewo-survey-api/*
+src/ondewo-survey-api/*
+
+.isort.cfg
+grpc_cert
