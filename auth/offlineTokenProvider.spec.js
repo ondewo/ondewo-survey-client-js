@@ -24,6 +24,44 @@ const assert = require('node:assert/strict');
 
 const { login, OfflineTokenProvider, TokenError } = require('./offlineTokenProvider');
 
+/**
+ * A scripted token-endpoint reply consumed (in order) by {@link makeFetchStub}.
+ *
+ * @typedef {object} StubResponse
+ * @property {number} [status]
+ *     The HTTP status to report; defaults to 200 (and drives the `ok` flag).
+ * @property {object | string} [body]
+ *     The response body. An object is JSON-stringified; a string is returned verbatim (used to
+ *     simulate non-JSON bodies).
+ */
+
+/**
+ * A single fetch invocation recorded by {@link makeFetchStub} for later assertions.
+ *
+ * @typedef {object} RecordedCall
+ * @property {string} url
+ *     The URL the stub was called with.
+ * @property {object} init
+ *     The `fetch` init object (method, headers, body).
+ * @property {URLSearchParams} params
+ *     The form-decoded request body, for inspecting individual grant parameters.
+ */
+
+/**
+ * The handle returned by {@link makeFetchStub}: an injectable `fetchImpl` plus the live call log.
+ *
+ * @typedef {object} FetchStub
+ * @property {(url: string, init: object) => Promise<{ ok: boolean, status: number, text: () => Promise<string> }>} fetchImpl
+ *     The `fetch`-compatible stub to pass as the `fetchImpl` option.
+ * @property {RecordedCall[]} calls
+ *     The recorded calls, in invocation order.
+ */
+
+/**
+ * The shared connection + credential options every test starts from (spread + overridden per case).
+ *
+ * @type {{ keycloakUrl: string, realm: string, clientId: string, username: string, password: string }}
+ */
 const BASE_OPTIONS = {
 	keycloakUrl: 'https://auth.example.com/auth',
 	realm: 'ondewo-ccai-platform',
@@ -32,12 +70,22 @@ const BASE_OPTIONS = {
 	password: 'super-secret'
 };
 
+/** @type {string} The token endpoint {@link BASE_OPTIONS} is expected to resolve to. */
 const EXPECTED_TOKEN_ENDPOINT =
 	'https://auth.example.com/auth/realms/ondewo-ccai-platform/protocol/openid-connect/token';
 
-// Build a fake fetch that returns a sequence of JSON responses (one per call) and records the
-// requests it received, so assertions can inspect the form-encoded body and the URL.
+/**
+ * Build a fake `fetch` that returns a scripted sequence of responses (one per call) and records the
+ * requests it received, so assertions can inspect the form-encoded body and the URL. Throws if it is
+ * called more times than there are scripted responses.
+ *
+ * @param {StubResponse[]} responses
+ *     The replies to hand out, in order; each call shifts the next one off the front.
+ * @returns {FetchStub}
+ *     The injectable `fetchImpl` and its shared `calls` log.
+ */
 function makeFetchStub(responses) {
+	/** @type {RecordedCall[]} */
 	const calls = [];
 	const fetchImpl = (url, init) => {
 		calls.push({ url, init, params: new URLSearchParams(init.body) });
@@ -56,7 +104,13 @@ function makeFetchStub(responses) {
 	return { fetchImpl, calls };
 }
 
-// Yield to the microtask queue so an awaited refresh inside a fired timer can settle.
+/**
+ * Yield to the microtask queue so an awaited refresh inside a fired timer can settle before the test
+ * makes its assertions.
+ *
+ * @returns {Promise<void>}
+ *     Resolves on the next tick of the event loop.
+ */
 function flushMicrotasks() {
 	return new Promise((resolve) => {
 		process.nextTick(resolve);
@@ -133,7 +187,9 @@ runTestCase('auto-refresh exchanges the offline refresh_token for a fresh access
 runTestCase('the refresh loop stops after tokenExpirationInS elapses (no further renewal)', async () => {
 	const stub = makeFetchStub([{ body: { access_token: 'access-1', refresh_token: 'offline-1', expires_in: 31 } }]);
 
+	/** @type {number} A mutable fake wall clock (ms) the test advances to step past the deadline. */
 	let fakeNowInMs = 1_000_000;
+	/** @type {() => number} The clock override fed to the provider, reading the mutable fake clock. */
 	const nowInMs = () => fakeNowInMs;
 
 	mock.timers.enable({ apis: ['setTimeout'] });
@@ -165,7 +221,9 @@ runTestCase('a long deadline clamps the next refresh delay to the remaining wind
 		{ body: { access_token: 'access-2', refresh_token: 'offline-2', expires_in: 31 } }
 	]);
 
+	/** @type {number} A mutable fake wall clock (ms); here it stays put so the skew delay wins. */
 	let fakeNowInMs = 2_000_000;
+	/** @type {() => number} The clock override fed to the provider, reading the mutable fake clock. */
 	const nowInMs = () => fakeNowInMs;
 
 	mock.timers.enable({ apis: ['setTimeout'] });
@@ -236,6 +294,7 @@ runTestCase('a failed background refresh is surfaced to onRefreshError and keeps
 	mock.timers.enable({ apis: ['setTimeout'] });
 	try {
 		const provider = await login({ ...BASE_OPTIONS, fetchImpl: stub.fetchImpl });
+		/** @type {unknown} The error surfaced by the failed background refresh, captured for assertions. */
 		let captured = null;
 		provider.onRefreshError((error) => {
 			captured = error;
@@ -331,7 +390,9 @@ runTestCase('an absent/zero expires_in falls back to the minimum refresh delay',
 runTestCase('a non-positive tokenExpirationInS lapses the loop immediately at schedule time', async () => {
 	const stub = makeFetchStub([{ body: { access_token: 'access-1', refresh_token: 'offline-1', expires_in: 31 } }]);
 
+	/** @type {number} A mutable fake wall clock (ms) advanced after the immediate-lapse assertion. */
 	let fakeNowInMs = 5_000_000;
+	/** @type {() => number} The clock override fed to the provider, reading the mutable fake clock. */
 	const nowInMs = () => fakeNowInMs;
 
 	mock.timers.enable({ apis: ['setTimeout'] });
@@ -358,9 +419,12 @@ runTestCase('a non-positive tokenExpirationInS lapses the loop immediately at sc
 });
 
 runTestCase('login falls back to the global fetch when no fetchImpl is provided', async () => {
+	/** @type {string[]} The URLs the overridden global fetch was called with. */
 	const calls = [];
+	/** @type {typeof globalThis.fetch} The real global fetch, restored in the finally block. */
 	const originalFetch = globalThis.fetch;
 	// Override the global fetch so the default-branch (`globalThis.fetch`) is exercised without network.
+	// @ts-expect-error -- the test stub intentionally implements only the subset of fetch this module uses.
 	globalThis.fetch = (url) => {
 		calls.push(url);
 		return Promise.resolve({
@@ -395,9 +459,12 @@ runTestCase('the refresh timer arms on the real event loop and is unref-ed (does
 });
 
 runTestCase('stop() during an in-flight refresh suppresses re-arming the next refresh', async () => {
+	/** @type {URLSearchParams[]} The form-decoded body of each fetch the stub received. */
 	const calls = [];
 	// Captures the refresh resolver so the test can complete the in-flight refresh on demand.
+	/** @type {() => void} Resolves the parked refresh response; reassigned when that response is created. */
 	let releaseRefresh = () => {};
+	/** @type {(url: string, init: object) => Promise<{ ok: boolean, status: number, text: () => Promise<string> }>} */
 	const fetchImpl = (_url, init) => {
 		calls.push(new URLSearchParams(init.body));
 		if (calls.length === 1) {
