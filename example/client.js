@@ -6,9 +6,12 @@ console.log('CLIENT SCRIPT -- start');
 //console.log(proto);
 
 const endPoint = 'https://webgrpc-survey-develop.ondewo.com:443';
+// Current (D18 Keycloak) auth: obtain a short-lived access token from the offline-token provider
+// (../auth/offlineTokenProvider.js -> login(...).getAuthorizationHeader()) and send it as a
+// `Bearer <access_token>` metadata header. The legacy cai-token / HTTP-basic login has been removed.
+// See ./getSurveyExample.js for a mock-tested, copy-pasteable version of this flow.
 const authMetaData = {
-	//Authorization: "<--Your authorization token-->",
-	Authorization: ''
+	Authorization: 'Bearer <access_token>'
 };
 
 //runDefaultSurveyClientSample(endPoint, authMetaData);
