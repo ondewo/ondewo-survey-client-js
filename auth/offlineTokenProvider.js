@@ -23,6 +23,8 @@
 
 'use strict';
 
+/* global URLSearchParams, setTimeout, clearTimeout, module */
+
 /**
  * The form-encoded parameter map sent in a token-endpoint request body. Every value is a string
  * because it is serialized through {@link URLSearchParams}.

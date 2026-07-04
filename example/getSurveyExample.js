@@ -21,9 +21,8 @@
 // so this example stays pure and unit-testable with mocks (see getSurveyExample.spec.js) -- there is
 // NO live gRPC server and NO real Keycloak in the tests.
 //
-// Auth follows the current D18 Keycloak flow: a short-lived access token is obtained (and refreshed)
-// by ../auth/offlineTokenProvider.js and sent as an `Authorization: Bearer <token>` gRPC metadata
-// header. The legacy cai-token / HTTP-basic login is gone.
+// Auth is bearer-only: a short-lived Keycloak access token is obtained (and refreshed) by
+// ../auth/offlineTokenProvider.js and sent as an `Authorization: Bearer <token>` gRPC metadata header.
 //
 // Browser / bundler wiring (put behind your build's module system):
 //
