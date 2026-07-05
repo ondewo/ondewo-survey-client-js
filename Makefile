@@ -55,7 +55,7 @@ prettier: ## Checks formatting with Prettier - Use PRETTIER_WRITE=-w to also aut
 	node_modules/.bin/prettier --config .prettierrc --check --ignore-path .prettierignore $(PRETTIER_WRITE) ./
 
 eslint: ## Checks Code Logic and Typing
-	./node_modules/.bin/eslint --config eslint.config.mjs .
+	./node_modules/.bin/eslint --config eslint.config.mjs --no-error-on-unmatched-pattern .
 
 TEST: ## Prints some important variables
 	@echo "Release Notes: \n \n $(CURRENT_RELEASE_NOTES)"
