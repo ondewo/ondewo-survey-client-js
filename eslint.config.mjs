@@ -13,7 +13,19 @@ const compat = new FlatCompat({
 
 export default [
 	{
-		ignores: ['**/api/', 'src/ondewo-survey-api', '**/ondewo-proto-compiler', '**/example']
+		ignores: [
+			'**/api/',
+			'src/ondewo-survey-api',
+			'**/ondewo-proto-compiler',
+			'**/example',
+			'**/*.mjs',
+			'npm/',
+			'dist/',
+			'.test-build/',
+			'.test-build-examples/',
+			'auth/*.js',
+			'auth/*.d.ts'
+		]
 	},
 	{
 		files: ['**/*.js'], // Target all JavaScript files
