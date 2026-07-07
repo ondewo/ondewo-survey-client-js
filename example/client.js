@@ -6,9 +6,12 @@ console.log('CLIENT SCRIPT -- start');
 //console.log(proto);
 
 const endPoint = 'https://webgrpc-survey-develop.ondewo.com:443';
+// Auth is bearer-only: obtain a short-lived Keycloak access token from the offline-token provider
+// (../auth/offlineTokenProvider.js -> login(...).getAuthorizationHeader()) and send it as an
+// `Authorization: Bearer <access_token>` metadata header. See ./getSurveyExample.js for a
+// mock-tested, copy-pasteable version of this flow.
 const authMetaData = {
-	//Authorization: "<--Your authorization token-->",
-	Authorization: ''
+	Authorization: 'Bearer <access_token>'
 };
 
 //runDefaultSurveyClientSample(endPoint, authMetaData);
