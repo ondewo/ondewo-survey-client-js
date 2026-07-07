@@ -14,7 +14,7 @@
     "grpc"
   ],
   "scripts": {
-    "build": "docker run -it -v ${PWD}:/input-volume -v ${PWD}/../api:/output-volume ondewo-js-proto-compiler ondewo-survey-api ondewo-survey-api ondewo"
+    "build": "docker run -v ${PWD}:/input-volume -v ${PWD}/../api:/output-volume ondewo-js-proto-compiler ondewo-survey-api ondewo-survey-api ondewo"
   },
   "repository": {
     "type": "git",
