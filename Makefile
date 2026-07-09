@@ -14,7 +14,7 @@ export
 # 		Variables
 ########################################################
 
-ONDEWO_SURVEY_VERSION = 2.0.0
+ONDEWO_SURVEY_VERSION=2.0.0
 
 SURVEY_API_GIT_BRANCH=OND211-2418-add-keycloak-for-2-fa
 ONDEWO_PROTO_COMPILER_GIT_BRANCH=tags/5.10.0
