@@ -28,7 +28,7 @@ IMAGE_UTILS_NAME=ondewo-survey-client-utils-js:${ONDEWO_SURVEY_VERSION}
 PRETTIER_WRITE?=
 
 CURRENT_RELEASE_NOTES=`cat RELEASE.md \
-	| perl -ne 'print if /Release ONDEWO Survey Js Client ${ONDEWO_SURVEY_VERSION}/../\*\*/'`
+	| perl -ne 'print if /Release ONDEWO Survey Js Client ${ONDEWO_SURVEY_VERSION}/../^\*{5}/'`
 
 GH_REPO="https://github.com/ondewo/ondewo-survey-client-js"
 DEVOPS_ACCOUNT_GIT="ondewo-devops-accounts"
