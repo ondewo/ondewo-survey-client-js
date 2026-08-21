@@ -1,6 +1,6 @@
 {
   "name": "@ondewo/ondewo-survey-client-js",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "ONDEWO Survey (SURVEY) Client library for Js",
   "author": "ONDEWO GmbH",
   "homepage": "https://ondewo.com",
@@ -13,13 +13,14 @@
     "js",
     "grpc"
   ],
+  "scripts": {
+    "build": "docker run -v ${PWD}:/input-volume -v ${PWD}/../api:/output-volume ondewo-js-proto-compiler ondewo-survey-api ondewo-survey-api ondewo",
+    "test": "c8 --check-coverage --lines 100 --branches 100 --functions 100 --include auth/offlineTokenProvider.js --exclude '**/*.spec.js' --reporter text node --test auth/offlineTokenProvider.spec.js",
+    "test:examples": "node --test example/getSurveyExample.spec.js"
+  },
   "repository": {
     "type": "git",
     "directory": "https://github.com/ondewo/ondewo-survey-client-js.git"
-  },
-  "scripts": {
-    "test": "c8 --check-coverage --lines 100 --branches 100 --functions 100 --include auth/offlineTokenProvider.js --exclude '**/*.spec.js' --reporter text node --test auth/offlineTokenProvider.spec.js",
-    "test:examples": "node --test example/getSurveyExample.spec.js"
   },
   "dependencies": {
     "google-protobuf": "^3.21.4",
@@ -31,14 +32,14 @@
     "webpack-merge": "^6.0.1"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.5",
-    "@eslint/js": "^9.39.4",
-    "@typescript-eslint/eslint-plugin": "^8.62.1",
+    "@eslint/eslintrc": "^3.3.6",
+    "@eslint/js": "^9.39.5",
+    "@typescript-eslint/eslint-plugin": "^8.67.0",
     "c8": "^11.0.0",
-    "eslint": "^9.39.4",
+    "dotenv": "^16.4.5",
+    "eslint": "^9.39.5",
     "global": "^4.4.0",
     "husky": "^9.1.7",
-    "prettier": "^3.9.4",
-    "dotenv": "^16.4.5"
+    "prettier": "^3.9.6"
   }
 }
