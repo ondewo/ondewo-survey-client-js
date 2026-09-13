@@ -15,8 +15,9 @@
   ],
   "scripts": {
     "build": "docker run -v ${PWD}:/input-volume -v ${PWD}/../api:/output-volume ondewo-js-proto-compiler ondewo-survey-api ondewo-survey-api ondewo",
-    "test": "c8 --check-coverage --lines 100 --branches 100 --functions 100 --include auth/offlineTokenProvider.js --exclude '**/*.spec.js' --reporter text node --test auth/offlineTokenProvider.spec.js",
-    "test:examples": "node --test example/getSurveyExample.spec.js"
+    "test": "c8 --check-coverage --lines 100 --branches 100 --functions 100 --include auth/offlineTokenProvider.js --exclude '**/*.spec.js' --reporter text node --test auth/offlineTokenProvider.spec.js && npm run test:protos",
+    "test:examples": "node --test example/getSurveyExample.spec.js",
+    "test:protos": "node --test tests/bundleStringRoundTrip.spec.js"
   },
   "repository": {
     "type": "git",
