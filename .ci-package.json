@@ -1,11 +1,12 @@
 {
-  "description": "ONDEWO Survey (SURVEY) Client library for Js",
-  "scripts": {
-    "test": "c8 --check-coverage --lines 100 --branches 100 --functions 100 --include auth/offlineTokenProvider.js --exclude '**/*.spec.js' --reporter text node --test auth/offlineTokenProvider.spec.js && npm run test:protos",
-    "test:examples": "node --test example/getSurveyExample.spec.js",
-    "test:protos": "node --test tests/bundleStringRoundTrip.spec.js"
-  },
-  "devDependencies": {
-    "c8": "^11.0.0"
-  }
+	"description": "ONDEWO Survey (SURVEY) Client library for Js",
+	"scripts": {
+		"test": "c8 --check-coverage --lines 100 --branches 100 --functions 100 --include auth/offlineTokenProvider.js --include auth/grpcWebEndpoint.js --exclude '**/*.spec.js' --reporter text node --test auth/offlineTokenProvider.spec.js auth/grpcWebEndpoint.spec.js && npm run test:protos && npm run test:release-notes",
+		"test:examples": "node --test example/getSurveyExample.spec.js",
+		"test:protos": "node --test tests/bundleStringRoundTrip.spec.js",
+		"test:release-notes": "node --test tests/releaseNotes.spec.js"
+	},
+	"devDependencies": {
+		"c8": "^11.0.0"
+	}
 }
