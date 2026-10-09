@@ -28,3 +28,14 @@
 * Update to SURVEY client version tag 1.1.0
 * [[OND211-2039]](https://ondewo.atlassian.net/browse/OND211-2039) - Implemented automated release for GitHub and NPM
 * [[OND211-2039]](https://ondewo.atlassian.net/browse/OND211-2039) - Added pre-commit hooks and adjusted files to them
+
+*****************
+
+## Release ONDEWO Survey Js Client 0.6.0
+
+### Improvements
+
+* Initial SURVEY Js client, built on ONDEWO SURVEY API 0.6.0 (`SurveysPromiseClient`, FHIR client)
+* Browser example: create a survey, default sample and FHIR client sample, JavaScript object to struct conversion for the create FHIR survey call
+
+*****************
