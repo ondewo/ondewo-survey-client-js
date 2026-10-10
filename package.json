@@ -1,6 +1,6 @@
 {
   "name": "@ondewo/ondewo-survey-client-js",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "ONDEWO Survey (SURVEY) Client library for Js",
   "author": "ONDEWO GmbH",
   "homepage": "https://ondewo.com",
@@ -25,7 +25,7 @@
     "directory": "https://github.com/ondewo/ondewo-survey-client-js.git"
   },
   "dependencies": {
-    "google-protobuf": "^3.21.4",
+    "google-protobuf": "^4.0.2",
     "grpc-web": "^1.5.0",
     "terser-webpack-plugin": "^5.3.14",
     "undici": "^6.27.0",
@@ -34,14 +34,14 @@
     "webpack-merge": "^6.0.1"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.6",
+    "@eslint/eslintrc": "^3.3.7",
     "@eslint/js": "^9.39.5",
-    "@typescript-eslint/eslint-plugin": "^8.67.0",
+    "@typescript-eslint/eslint-plugin": "^8.71.1",
     "c8": "^11.0.0",
     "dotenv": "^16.4.5",
     "eslint": "^9.39.5",
     "global": "^4.4.0",
     "husky": "^9.1.7",
-    "prettier": "^3.9.6"
+    "prettier": "^3.9.9"
   }
 }
