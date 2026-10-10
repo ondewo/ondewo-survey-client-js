@@ -15,7 +15,7 @@ export
 ########################################################
 
 ONDEWO_SURVEY_VERSION=2.0.2
-SURVEY_API_GIT_BRANCH=OND211-2418-add-keycloak-for-2-fa
+SURVEY_API_GIT_BRANCH=tags/2.0.1
 ONDEWO_PROTO_COMPILER_GIT_BRANCH=tags/5.15.2
 ONDEWO_PROTO_COMPILER_DIR=ondewo-proto-compiler
 SURVEY_APIS_DIR=src/ondewo-survey-api
