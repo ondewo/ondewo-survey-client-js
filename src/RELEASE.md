@@ -2,6 +2,15 @@
 
 *****************
 
+## Release ONDEWO Survey Js Client 2.1.0
+
+### Improvements
+
+* Tracking API Version [2.1.0](https://github.com/ondewo/ondewo-survey-api/releases/tag/2.1.0) ( [Documentation](https://ondewo.github.io/ondewo-survey-api/) )
+* Generated with ondewo-proto-compiler 5.17.0 (protoc 35.1). New runtime floors: `grpc-web` ^2.1.1 and `google-protobuf` ^4.0.3; grpc-web 2.1.1 limits a response to 4 MB by default (set `maxReceiveMessageSize` to receive more)
+
+*****************
+
 ## Release ONDEWO Survey Js Client 2.0.2
 
 ### Improvements
